@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Jogador : MonoBehaviour {
-
+    public int vidas = 5;
     public int pontos = 0;
+    public int moedas = 0;
     public GameObject PeixeComido;
     public float move = 0.5f;
     public GameObject ControladorDOJogo;
@@ -25,14 +26,24 @@ public class Jogador : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D col)
     {
+        if(col.gameObject.tag == "Moeda")
+        {
+            moedas++;
+            Destroy(col.gameObject);
+        }
         if(col.gameObject.tag == "Comida")
         {
             pontos++;
-            //GameObject Comida = Instantiate(PeixeComido, col.gameObject.transform.position, Quaternion.identity);
-            //Destroy(Comida, 1f);
             Destroy(col.gameObject);
         }
+        if (col.gameObject.tag == "Veneno") {
+            vidas--;
+            Destroy(col.gameObject);
+        }
+
     }
+
+
 
     public void MoverE()
     {
