@@ -23,11 +23,20 @@ public class GameControler : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        //ZERAR BANCO
+        //PlayerPrefs.DeleteAll();
+
         MeuGatinho = GameObject.FindGameObjectWithTag("Player").GetComponent<Jogador>();
         if (PlayerPrefs.HasKey("recorde")) {
             // fazer nada, pq ela já existe
         } else {
             PlayerPrefs.SetInt("recorde", 0);
+        }
+        ///GARANTE QUE O CORAÇÃO TENHA VALOR INICIAL
+        if (PlayerPrefs.HasKey("coracao")) {
+            // fazer nada, pq ela já existe
+        } else {
+            PlayerPrefs.SetInt("coracao", 1);
         }
         Time.timeScale = 1;
 	}
@@ -42,10 +51,18 @@ public class GameControler : MonoBehaviour {
         
 	}
 
+    public void DadosIniciaisdoJogo(){
+        MeuGatinho.pontos = 0;
+        MeuGatinho.vidas = PlayerPrefs.GetInt("coracao");
+        MeuGatinho.moedas = 0;
+        GameOn = true;
+        Time.timeScale = 1;
+    }
+
     public void Reiniciar() 
     {
         MeuGatinho.pontos = 0;
-        MeuGatinho.vidas = 5;
+        MeuGatinho.vidas = PlayerPrefs.GetInt("coracao");
         MeuGatinho.moedas = 0;
         GameOn = true;
         Time.timeScale = 1;
@@ -97,6 +114,7 @@ public class GameControler : MonoBehaviour {
     public void Jogar()
     {
         GameOn = true;
+        DadosIniciaisdoJogo();
     }
 
     //Limpa Cena
